@@ -25,29 +25,27 @@ window.onload = function () {
 
 const endGame = _ => {
     clearInterval(timer)
-    time = 60 * 2
 }
 
 // Our constructor function 
 // question index is the question we are currently on 
+// returning a question from our question index 
 function Quiz(questions) {
     this.score = 0; 
     this.questions = questions; 
     this.questionIndex = 0; 
-}
-
-// function to get index of current question 
-Quiz.prototype.getQuestionIndex = function() { 
-    return this.questions[this.questionIndex];
-}
-
-// guess function to check if current answer is the answer selected by user 
-// navigate to a new question, so no need for return
-Quiz.prototype.guess = function(answer) {
-    if(this.getQuestionIndex().isCorrectAnswer(answer)) {
-        this.score++;
+    // function to get index of current question
+    this.getQuestionIndex = function() {
+        return this.questions[this.questionIndex];
     }
-    this.questionIndex++;
+    // guess function to check if current answer is the answer selected by user 
+    // navigate to a new question, so no need for return
+    this.guess = function(answer) {
+        if(this.getQuestionIndex().isCorrectAnswer(answer)) {
+            this.score++;
+        }
+        this.questionIndex++;
+    }
 }
 
 // function to check if our quiz has ended or not
@@ -61,11 +59,9 @@ function Question(text, choices, answer) {
     this.text = text; 
     this.choices = choices; 
     this.answer = answer; 
-}
-
-// select the constructor function and use a prototype 
-Question.prototype.isCorrectAnswer = function(choice) {
-    return choice === this.answer; 
+    this.isCorrectAnswer = function(choice) {
+        return choice === this.answer;
+    }
 }
 
 //function to populate the quiz, check if ended, if it is no need to populate 
@@ -110,7 +106,7 @@ function showScores() {
 };
 
 // create questions
-// function to populate the questions
+// function to populate the question fields
 var questions = [
     new Question("What movie is about a story of a mining apprentice, a legendary castle, air pirates, secret agents, and a luminous crystal?", ["Castle In The Sky", "Kiki's Delivery Service", "Howl's Moving Castle", "Princess Mononoke"], "Castle In The Sky"),
     new Question("What is the title of an animated film about a story of a new home in the country-side, a forest spirit, and a cat/bus?", ["My Neighbors the Yamadas", "My Neighbor Totoro", "The Cat Returns", "Whisper of the Heart"], "My Neighbor Totoro"),
@@ -126,5 +122,5 @@ var questions = [
 
 var quiz = new Quiz(questions);
 
-// display quiz
+// display quiz & populate with new questions
 populate();
